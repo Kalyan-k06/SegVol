@@ -18,7 +18,7 @@ def set_parse():
     parser.add_argument("--pretrain", type = str, default='')
     parser.add_argument("--resume", type = str, default='')
     parser.add_argument("--data_dir", type = str, default='')
-    parser.add_argument("--dataset_codes", type = list, default=['0010', '0011'])
+    parser.add_argument("--dataset_codes", type = list, default=['0001'])
     # config
     parser.add_argument("--test_mode", default=False, type=bool)
     parser.add_argument("-infer_overlap", default=0.5, type=float, help="sliding window inference overlap")
@@ -29,7 +29,7 @@ def set_parse():
     parser.add_argument("--RandFlipd_prob", default=0.2, type=float, help="RandFlipd aug probability")
     parser.add_argument("--RandScaleIntensityd_prob", default=0.1, type=float, help="RandScaleIntensityd aug probability")
     parser.add_argument("--RandShiftIntensityd_prob", default=0.1, type=float, help="RandShiftIntensityd aug probability")
-    parser.add_argument('-num_workers', type=int, default=8)
+    parser.add_argument('-num_workers', type=int, default=1)
     # dist
     parser.add_argument('--dist', dest='dist', type=bool, default=True,
                         help='distributed training or not')
@@ -42,7 +42,7 @@ def set_parse():
     parser.add_argument('-weight_decay', type=float, default=1e-5)
     parser.add_argument('-warmup_epoch', type=int, default=10)
     parser.add_argument('-num_epochs', type=int, default=500)
-    parser.add_argument('-batch_size', type=int, default=4)
+    parser.add_argument('-batch_size', type=int, default=1)
     parser.add_argument("--use_pseudo_label", default=True, type=bool)
     args = parser.parse_args()
     return args
@@ -190,7 +190,7 @@ def main_worker(gpu, ngpus_per_node, args):
 
         print(f'Time: {datetime.now().strftime("%Y%m%d-%H%M")}, Epoch: {epoch}, Loss: {epoch_loss}')
         # save the model checkpoint
-        if is_main_host and (epoch+1) % 10 == 0:
+        if True:
             checkpoint = {
                 'model': segvol_model.state_dict(),
                 'optimizer': optimizer.state_dict(),

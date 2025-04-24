@@ -60,7 +60,8 @@ def train_epoch(args, segvol_model, train_dataloader, optimizer, scheduler, epoc
         torch.distributed.barrier()
     
     for batch in epoch_iterator:
-        image, gt3D = batch["image"].cuda(), batch["post_label"].cuda()
+        image, gt3D = batch["image"].to(torch.float32).cuda(), batch["post_label"].to(torch.float32).cuda()
+        image.to(torch.float32)
         pseudo_seg_cleaned = batch['pseudo_seg_cleaned'].cuda()
         organ_name_list = batch['organ_name_list']
 
